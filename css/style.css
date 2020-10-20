@@ -1,0 +1,23 @@
+.nav-color{
+	background-color: #1b1c1c;
+}
+
+.img-logo{
+	margin-top: 6px;
+
+}
+.card-title{
+	background-color: #404040;
+	color: #fff;
+	padding: 16px;
+}
+
+.tim{
+	margin: 4px auto;
+	width: 200px;
+	height: 280px;
+}
+
+.box-player{
+	border: 1px solid;
+}
