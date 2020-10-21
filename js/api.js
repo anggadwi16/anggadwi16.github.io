@@ -11,9 +11,6 @@ const fetchApi = url => {
 	});
 };
 
-const fetchCache = url => {
-	return caches.match(url);
-}
 
 function status(response){
 	if(response.status !== 200){
@@ -35,66 +32,6 @@ function error(error){
 }
 
 function getStandings(){
-
-	if('caches' in window){
-		
-		fetchCache(standingsUrl).then(function(response){
-			if(response){
-				response.json().then(function(data){
-					let card = document.getElementById("card");
-					let loader  = document.getElementById("loader-kelasemen");
-					loader.style.display = 'none';
-					card.style.display = 'block';
-
-
-					let seasonHTML = "";
-
-					let standingsHTML = "";
-
-					let startDate = new Date(data.season.startDate);
-					let endDate = new Date(data.season.endDate);
-					
-					seasonHTML += `
-						<h6><b>Season ${startDate.getFullYear()} - ${endDate.getFullYear()}<b></h6>
-					`;
-
-					document.getElementById("season").innerHTML = seasonHTML;
-
-					data.standings.forEach(function(standings){
-						//ambil type
-						let type = standings.type;
-						
-						standings.table.forEach(function(table){
-							
-							//type total
-							if(type == "TOTAL"){
-								standingsHTML += `
-								<tr>
-						          	<td>${table.position}.</td>
-						            <td><img src="${table.team.crestUrl}" alt="team" width="30"/></td>
-						            <td>${table.team.name}</td>
-						            <td>${table.playedGames}</td>
-						            <td>${table.won}</td>
-						            <td>${table.draw}</td>
-						            <td>${table.lost}</td>
-						            <td>${table.points}</td>
-						            <td>${table.goalsFor}</td>
-						            <td>${table.goalsAgainst}</td>
-						            <td>${table.goalDifference}</td>
-					            </tr>
-									         
-							`;
-							}
-							
-						});
-
-					});
-
-					document.getElementById("kelasemen").innerHTML = standingsHTML;
-				});
-			}
-		});		
-	}
 
 	fetchApi(standingsUrl)
 	.then(status)
@@ -159,51 +96,6 @@ function getStandings(){
 
 function getMatch(){
 
-	if('caches' in window){
-		fetchCache(matchUrl).then(function(response){
-			if(response){
-				response.json().then(function(data){
-					let loader  = document.getElementById("loader-jadwal");
-		
-					loader.style.display = 'none';
-
-					let matchHTML = "";
-
-					data.matches.forEach(function(match){
-						
-
-						let startDate = new Date(match.utcDate);
-						let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-						let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
-						matchHTML += `
-								
-								<div class="col s12 m6 card">
-									<div class="card-content center">
-										<span class="card-title">
-										${days[startDate.getDay()]}, ${startDate.getDate()} ${months[startDate.getMonth()]} ${startDate.getFullYear()}
-										<br>
-										${(startDate.getHours()<10) ? "0"+startDate.getHours() : startDate.getHours()} : ${(startDate.getMinutes()<10) ? "0"+startDate.getMinutes() : startDate.getMinutes()}
-										</span>
-
-										<span style="text-size:12px;">
-											${match.homeTeam.name} VS ${match.awayTeam.name}
-										</span>
-										<br>
-										<br>
-										<a class="btn waves-effect waves-light black" id="save" onclick="saveMatch('${match.id}','${match.utcDate}','${match.homeTeam.name}', '${match.awayTeam.name}')"><i class="material-icons left">save</i>Simpan</a>
-									</div>
-								</div>	
-						`;
-
-					});
-
-					document.getElementById("jadwal").innerHTML = matchHTML;
-				});
-			}
-		});
-	}
-
 	fetchApi(matchUrl)
 	.then(status)
 	.then(json)
@@ -254,57 +146,6 @@ function getMatch(){
 
 
 function getTeams(){
-	if('caches' in window){
-		fetchCache(standingsUrl).then(function(response){
-			if(response){
-				response.json().then(function(data){
-
-					let loader  = document.getElementById("loader-tim");
-
-					loader.style.display = 'none';
-
-					let teamHTML = "";
-
-
-					data.standings.forEach(function(standings){
-						//ambil type
-						let type = standings.type;
-						
-						standings.table.forEach(function(table){
-							
-							//type total
-							if(type == "TOTAL"){
-								teamHTML += `
-								<div class="col s12 m6 card">
-									<div class="card-content center">
-
-										<div class="card-image waves-effect waves-block waves-light tim">
-											<a href="../pages/detail-tim.html?id=${table.team.id}">
-												<img src="${table.team.crestUrl}" alt="logo tim"/>
-											</a>
-										</div>
-										<span class="card-title truncate">
-											${table.team.name}
-										</span>
-
-										
-									</div>
-
-								</div>
-									         
-							`;
-							}
-							
-						});
-
-					});
-
-					document.getElementById("tim").innerHTML = teamHTML;
-
-				});
-			}
-		});
-	}
 
 	fetchApi(standingsUrl)
 	.then(status)
@@ -363,52 +204,6 @@ function getTeamsById(){
 
 		let urlParams = new URLSearchParams(window.location.search);
 		let idParams = urlParams.get("id");
-
-		if("caches" in window){
-			fetchCache(teamUrl+idParams).then(function(response){
-				if(response){
-					response.json().then(function(data){
-
-						let loader  = document.getElementById("loader-detail-tim");
-						loader.style.display = 'none';
-
-						let detailTeamHTML = "";
-
-						detailTeamHTML += `
-							<div class="card">
-								<div class="card-image">
-									<img src="${data.crestUrl}" class="tim"/>
-								</div>
-								<div class="card-content">
-									<span class="card-title center">${data.name}</span>
-									<div class="row center">
-						`;
-
-						data.squad.forEach(function(squad){
-							detailTeamHTML += `
-										
-										<div class="col s12 m3 box-player">
-											<span>${squad.position ?? "Player"}</span>
-											<h6>
-											<b>${squad.name}</b>
-											</h6>
-										</div>
-										
-							`;
-						})
-
-						detailTeamHTML += `
-									</div>
-								</div>
-							</div>
-						`;
-
-						document.getElementById("body-content").innerHTML = detailTeamHTML;
-						resolve(data);
-					})
-				}
-			});
-		}
 
 		fetchApi(teamUrl+idParams)
 		.then(status)

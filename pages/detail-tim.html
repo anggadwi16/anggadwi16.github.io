@@ -122,16 +122,18 @@
 
 
 			}
-			
 
 			btnSave.onclick = function(){
 				console.log("klik");
-				item.then(function(data){
-					console.log(data);
-					saveTeams(data);
-				});
-			}
 
+				item.then(function(data){
+
+					saveTeams(data);
+					btnSave.style.display = 'none';
+
+				});
+
+			}
 
 		});
 	</script>

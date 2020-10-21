@@ -4,7 +4,7 @@
 	"description" : "Aplikasi Sepakbola Liga Inggris",
 	"start_url" : "/index.html",
 	"display" : "standalone",
-	"background_color" : "#404040",
+	"background_color" : "#e3e5e8",
 	"theme_color" : "#1b1c1c",
 	"gcm_sender_id" : "1052665705674",
 	"icons" : [

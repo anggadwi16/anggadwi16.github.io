@@ -28,6 +28,7 @@ function saveTeams(teams){
 		.then(function(){
 			console.log("Tim berhasil disimpan");
 			M.toast({html: 'Tim berhasil disimpan', classes: 'rounded'});
+			
 
 		})
 		.catch(function(error){
@@ -94,7 +95,7 @@ function getTeamById(id){
 				let store = transaction.objectStore("teams");
 				return store.get(id);
 			})
-			.then(function(tean){
+			.then(function(team){
 				resolve(team);
 			});
 	});

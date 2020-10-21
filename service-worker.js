@@ -24,9 +24,9 @@ workbox.precaching.precacheAndRoute([
 	{url : '/js/nav.js', revision: '1'},
 	{url : 'https://fonts.googleapis.com/icon?family=Material+Icons', revision: '1'},
 
-
-	
-]);
+], {
+	ignoreUrlParametersMatching: [/.*/]
+});
 
 workbox.routing.registerRoute(
 	new RegExp('/pages/'),
