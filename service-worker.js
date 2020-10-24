@@ -9,6 +9,12 @@ if (workbox){
 workbox.precaching.precacheAndRoute([
 	{url : '/nav.html', revision: '1'},
 	{url : '/index.html', revision: '1'},
+	{url : '/pages/detail-tim.html', revision : '1'},
+	{url : '/pages/jadwal.html', revision : '1'},
+	{url : '/pages/kelasemen.html', revision : '1'},
+	{url : '/pages/save-jadwal.html', revision : '1'},
+	{url : '/pages/save-tim.html', revision : '1'},
+	{url : '/pages/tim.html', revision : '1'},
 	{url : '/css/materialize.min.css', revision: '1'},
 	{url : '/css/style.css', revision: '1'},
 	{url : '/manifest.json', revision: '1'},
@@ -23,17 +29,11 @@ workbox.precaching.precacheAndRoute([
 	{url : '/js/idb.js', revision: '1'},
 	{url : '/js/nav.js', revision: '1'},
 	{url : 'https://fonts.googleapis.com/icon?family=Material+Icons', revision: '1'},
+	
 
 ], {
 	ignoreUrlParametersMatching: [/.*/]
 });
-
-workbox.routing.registerRoute(
-	new RegExp('/pages/'),
-	workbox.strategies.staleWhileRevalidate({
-		cacheName : 'pages'
-	})
-);
 
 let base_url = "https://api.football-data.org/";
 
@@ -42,6 +42,13 @@ workbox.routing.registerRoute(
   workbox.strategies.staleWhileRevalidate({
       cacheName: 'api'
   })
+);
+
+workbox.routing.registerRoute(
+	new RegExp("https://fonts.googleapis.com/icon?family=Material+Icons"),
+	workbox.strategies.staleWhileRevalidate({
+		cacheName : 'google-font'
+	})
 );
 
 
