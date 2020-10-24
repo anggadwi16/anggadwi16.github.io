@@ -29,6 +29,7 @@ workbox.precaching.precacheAndRoute([
 	{url : '/js/idb.js', revision: '1'},
 	{url : '/js/nav.js', revision: '1'},
 	{url : 'https://fonts.googleapis.com/icon?family=Material+Icons', revision: '1'},
+	{url : 'https://fonts.gstatic.com/s/materialicons/v55/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2', revision: '1'},
 	
 
 ], {
@@ -49,6 +50,20 @@ workbox.routing.registerRoute(
 	workbox.strategies.staleWhileRevalidate({
 		cacheName : 'google-font'
 	})
+);
+
+workbox.routing.registerRoute(
+	new RegExp("https://fonts.gstatic.com/s/materialicons/v55/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2"),
+	workbox.strategies.staleWhileRevalidate({
+		cacheName : 'google-font-woff2'
+	})
+);
+
+workbox.routing.registerRoute(
+  /^https:\/\/fonts\.googleapis\.com/,
+  workbox.strategies.staleWhileRevalidate({
+    cacheName: 'google-fonts-stylesheets',
+  })
 );
 
 
